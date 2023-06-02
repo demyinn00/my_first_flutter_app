@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_first_flutter_app/main.dart';
 
 class ObscuredTextFieldSample extends StatelessWidget {
-  const ObscuredTextFieldSample({super.key});
+  const ObscuredTextFieldSample({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,24 +20,36 @@ class ObscuredTextFieldSample extends StatelessWidget {
 }
 
 class MyNewToDoPage extends StatefulWidget {
-  const MyNewToDoPage({super.key, required this.title});
-
+  const MyNewToDoPage({super.key, required this.title, this.task});
   final String title;
+  final Task? task;
 
   @override
   State<MyNewToDoPage> createState() => _MyNewToDoPageState();
 }
 
 class _MyNewToDoPageState extends State<MyNewToDoPage> {
+  late final Task _task;
   bool _isDone = false;
-  String _title = '';
-  String _notes = '';
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _notesController = TextEditingController();
 
-  void navigateHome(BuildContext context, int isConfirmed) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const MyHomePage(title: "To-do list")),
-    );
+  @override
+  void initState() {
+    super.initState();
+    if (widget.task != null) {
+      _task = widget.task!;
+    } else {
+      _task = Task(isDone: false, title: '', notes: '');
+    }
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    _titleController.dispose();
+    _notesController.dispose();
+    super.dispose();
   }
 
   void _cancelCreation() {
@@ -48,15 +60,11 @@ class _MyNewToDoPageState extends State<MyNewToDoPage> {
   }
 
   void _confirmCreation() {
-    // save
-    _isDone;
-    _title;
-    _notes;
+    _task.isDone = _isDone;
+    _task.title = _titleController.text;
+    _task.notes = _notesController.text;
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const MyHomePage(title: "To-do list")),
-    );
+    Navigator.pop(context, _task);
   }
 
   @override
@@ -81,9 +89,7 @@ class _MyNewToDoPageState extends State<MyNewToDoPage> {
                 ),
                 Expanded(
                   child: TextField(
-                    onChanged: (value) {
-                      _title = value;
-                    },
+                    controller: _titleController,
                     decoration: const InputDecoration(hintText: 'Title'),
                   ),
                 ),
@@ -91,9 +97,7 @@ class _MyNewToDoPageState extends State<MyNewToDoPage> {
             ),
             Expanded(
               child: TextField(
-                onChanged: (value) {
-                  _notes = value;
-                },
+                controller: _notesController,
                 decoration: const InputDecoration(hintText: 'Notes'),
                 maxLines: null, // Allows unlimited lines for notes
               ),
