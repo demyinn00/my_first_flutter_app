@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'new_todo_page.dart';
+import 'profile_page.dart';
 
 const String newToDoTitle = "New To-do";
 const String homeTitle = "To-do";
 const String loginTitle = "Login or Sign up!";
 const String toDoTitle = "To-do task";
+const String profileTitle = "Profile";
 
 
 void main() {
@@ -67,6 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => MyNewToDoPage(title: task.title, task: task)),
+    );
+  }
+
+  void _navigateProfile() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MyProfilePage(title: profileTitle))
     );
   }
 
@@ -157,6 +166,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     onPressed: _toggleDeleteMode,
                     child: const Icon(Icons.remove),
+                  ),
+                  ElevatedButton(
+                    onPressed: _navigateProfile,
+                    child: const Icon(Icons.account_circle),
                   ),
                   ElevatedButton(
                     onPressed: _createNewToDo,
