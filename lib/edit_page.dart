@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_flutter_app/main.dart';
 
-class MyNewToDoPage extends StatefulWidget {
-  const MyNewToDoPage({super.key, required this.title, this.task});
+class MyEditPage extends StatefulWidget {
+  const MyEditPage({super.key, required this.title, this.task});
   final String title;
   final Task? task;
 
   @override
-  State<MyNewToDoPage> createState() => _MyNewToDoPageState();
+  State<MyEditPage> createState() => _MyEditPageState();
 }
 
-class _MyNewToDoPageState extends State<MyNewToDoPage> {
+class _MyEditPageState extends State<MyEditPage> {
   late final Task _task;
   bool _isDone = false;
   final TextEditingController _titleController = TextEditingController();
@@ -21,9 +21,6 @@ class _MyNewToDoPageState extends State<MyNewToDoPage> {
     super.initState();
     if (widget.task != null) {
       _task = widget.task!;
-      _isDone = _task.isDone;
-      _titleController.text = _task.title;
-      _notesController.text = _task.notes;
     } else {
       _task = Task(isDone: false, title: '', notes: '');
     }
@@ -56,7 +53,7 @@ class _MyNewToDoPageState extends State<MyNewToDoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.task == null ? 'New To-do Item' : 'Edit To-do Item'),
+        title: const Text('New To-do Item'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

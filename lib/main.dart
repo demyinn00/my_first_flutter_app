@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'new_todo_page.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
 const String newToDoTitle = "New To-do";
 const String homeTitle = "To-do";
 const String loginTitle = "Login or Sign up!";
 const String toDoTitle = "To-do task";
+
+
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
